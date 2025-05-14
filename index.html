@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VARTIST - Accessible Clone</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      font-family: 'Open Sans', Arial, sans-serif;
+      font-size: 24px;
+      background: #f9f6f4;
+      color: #1a1a1a;
+      line-height: 1.7;
+    }
+    header {
+      background: #fff;
+      border-bottom: 2px solid #ececec;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.2rem 2rem;
+    }
+    .logo {
+      font-family: 'Chelsea Market', cursive, 'Open Sans', sans-serif;
+      font-size: 2.3rem;
+      font-weight: bold;
+      color: #212121;
+      letter-spacing: 2px;
+    }
+    nav {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      margin: 0 18px;
+      font-size: 1.2em;
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 3px solid transparent;
+      padding-bottom: 0.3em;
+      transition: color 0.2s, border 0.2s;
+    }
+    nav a.active, nav a:focus, nav a:hover {
+      color: #b65443;
+      border-bottom: 3px solid #b65443;
+      outline: none;
+    }
+    .nav-user {
+      font-size: 2.2rem;
+      color: #e9872e;
+      margin-left: 2rem;
+    }
+    section {
+      padding: 3rem 0 2.2rem 0;
+      max-width: 1050px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .hero {
+      background: url('https://ext.same-assets.com/1954594351/2929583827.jpeg') center/cover no-repeat;
+      min-height: 470px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      color: #fff;
+    }
+    .hero-content {
+      background: rgba(255,255,255,0.93);
+      color: #212121;
+      padding: 2.5rem 2rem 2.5rem;
+      border-radius: 1.1rem;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 18px rgba(20,20,20,0.09);
+      max-width: 480px;
+      text-align: center;
+    }
+    .scroll-down-arrow {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 18px;
+      font-size: 2.8rem;
+      color: #b65443;
+      background: #fff8;
+      border-radius: 100px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    .featured-artworks {
+      background: #fff;
+      padding: 2.2rem 0 3rem 0;
+      text-align: center;
+    }
+    .featured-artworks-title {
+      font-family: 'Chelsea Market', cursive, 'Open Sans', sans-serif;
+      font-size: 2.2em;
+      margin-bottom: 1.8rem;
+      letter-spacing: 1.5px;
+      color: #181818;
+      animation: fadeInScale 1s cubic-bezier(0.6,0.21,0.45,0.99) both;
+    }
+    .artworks-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.2rem;
+      justify-content: center;
+    }
+    .artwork-card {
+      width: 260px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #b0b8c530;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.21s, transform 0.16s;
+      will-change: box-shadow, transform;
+    }
+    .artwork-card:hover {
+      transform: scale(1.045) translateY(-4px);
+      box-shadow: 0 10px 34px #ce9f4255;
+      z-index: 2;
+    }
+    .artwork-card img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 14px 14px 0 0;
+      background: #fafafa;
+      transition: transform 0.23s cubic-bezier(.5,.4,.72,1.19);
+      display: block;
+      filter: brightness(0.88);
+    }
+    .artwork-card:hover img {
+      transform: scale(1.034) rotate(-2deg);
+    }
+    .courses-section {
+      background: linear-gradient(90deg,#e3ad90 0%,#b0b8c5 100%);
+      padding: 2.6rem 0 3.2rem 0;
+      border-radius: 14px;
+      margin: 2em auto 2.3em auto;
+      box-shadow: 0 2px 10px #d3d3d360;
+      text-align: center;
+      max-width: 950px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .courses-list {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
+      gap: 2.1rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .course-block {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #b0b8c530;
+      width: 217px;
+      min-width: 200px;
+      max-width: 255px;
+      padding: 1.55rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 1.06em;
+      font-family:'Open Sans', Arial, Helvetica, sans-serif;
+      transition: box-shadow 0.21s, transform 0.16s;
+      will-change: box-shadow, transform;
+      overflow: hidden;
+    }
+    .course-block:hover {
+      transform: scale(1.045) translateY(-4px);
+      box-shadow: 0 10px 34px #ce9f4255;
+      z-index: 2;
+    }
+    .course-block img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 14px 14px 0 0;
+      background: #fafafa;
+      transition: transform 0.23s cubic-bezier(.5,.4,.72,1.19);
+      display: block;
+    }
+    .course-block:hover img {
+      transform: scale(1.034) rotate(-2deg);
+    }
+    .course-block h3 {
+      margin: 0.5em 0 0 0;
+      font-size: 2.3em;
+      color: #b65443;
+    }
+    .course-block h5 {
+      font-size: 1.16em;
+      font-weight: bold;
+      margin: .5em 0 1em 0;
+      color: #666;
+    }
+    .course-block .course-desc {
+      font-size: 1.11em;
+      color: #333;
+      margin-bottom: 1.4em;
+    }
+    .course-block a {
+      display: inline-block;
+      background: #b65443;
+      color: #fff;
+      padding: 0.55em 1.5em;
+      font-size: 1em;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 1.2em;
+      transition: background 0.2s;
+    }
+    .course-block a:hover {
+      background: #973347;
+    }
+    .identity-banner {
+      background: #2c2c2c;
+      color: #fff;
+      text-align: center;
+      padding: 4rem 0 2.5rem;
+    }
+    .identity-banner h2 {
+      font-family: 'Chelsea Market', cursive, 'Open Sans', sans-serif;
+      letter-spacing: 2px;
+      font-size: 2.3em;
+      animation: fadeInScale 1s cubic-bezier(0.6,0.21,0.45,0.99) both;
+    }
+    .identity-banner h4 {
+      font-size: 1.4em;
+      margin-top: -10px;
+      letter-spacing: 1px;
+    }
+    .identity-banner a {
+      color: #b65443;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+    #about {
+      background: #fff;
+    }
+    .about-split {
+      display: flex;
+      align-items: center;
+      gap: 2.3rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.4rem;
+    }
+    .about-left img {
+      max-width: 330px;
+      border-radius: 1.2em;
+    }
+    .about-right {
+      flex: 1;
+      min-width: 320px;
+    }
+    .about-right h3 {
+      font-size: 2em;
+      margin-bottom: 1.3rem;
+      animation: fadeInScale 1s cubic-bezier(0.6,0.21,0.45,0.99) both;
+    }
+    .testimonials {
+      display: flex;
+      justify-content: center;
+      gap: 2.5em;
+      margin: 2.7em 0 2em 0;
+      background: #2c2c2c;
+      color: #fff;
+      font-size: 1.08em;
+      padding: 2.3em 0 3em 0;
+      border-radius: 18px;
+    }
+    .testimonial-block {
+      flex: 1;
+      max-width: 290px;
+    }
+    .testimonial-block h4 {
+      margin: 6px 0 8px 0;
+      font-weight: bold;
+      font-size: 1.17em;
+    }
+    .testimonial-block p {
+      font-style: italic;
+      margin: 0;
+      font-size: 1.1em;
+    }
+    .clients-section {
+      text-align: center;
+      padding: 3rem 0 1.7rem 0;
+      background: #fff;
+    }
+    .clients-section h3 {
+      animation: fadeInScale 1s cubic-bezier(0.6,0.21,0.45,0.99) both;
+    }
+    .clients-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2em;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1.6rem;
+    }
+    .clients-logos img {
+      max-height: 60px;
+      max-width: 150px;
+    }
+    #services {
+      background: #fafafb url('https://ext.same-assets.com/984161844/2433855918.jpeg') top center/cover no-repeat;
+      min-height: 200px;
+    }
+    .services-header-img {
+      width: 100%;
+      height: 240px;
+      background: url('https://ext.same-assets.com/984161844/1451038962.jpeg') center/cover no-repeat;
+      border-radius: 1em;
+      margin-bottom: 1.7em;
+    }
+    .services-list-outer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 0 auto;
+      gap: 2.2rem;
+    }
+    .service-card, .service-card.reverse {
+      width: 100%;
+      max-width: 760px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 3px 20px #dad7d152;
+      transition: box-shadow 0.28s cubic-bezier(.28,.62,.34,1.13), transform 0.19s cubic-bezier(.28,.62,.34,1.13);
+      will-change: box-shadow, transform;
+      overflow: hidden;
+      animation: fadeInUp 0.9s 0.1s both;
+    }
+    .service-card:hover, .service-card.reverse:hover {
+      box-shadow: 0 12px 40px #bf3d4342;
+      transform: translateY(-9px) scale(1.025);
+    }
+    .service-card {
+      flex-direction: row;
+    }
+    .service-card.reverse {
+      flex-direction: row-reverse;
+    }
+    .service-img {
+      min-width: 210px;
+      max-width: 300px;
+      width: 27vw;
+      height: 155px;
+      object-fit: cover;
+      border-radius: 0 14px 14px 0;
+      transition: transform 0.25s cubic-bezier(.4,.7,.44,1.23), box-shadow 0.21s;
+      box-shadow: 0 2px 8px #b0b8c530;
+      margin: 0;
+    }
+    .service-card.reverse .service-img {
+      border-radius: 14px 0 0 14px;
+    }
+    .service-img:hover {
+      transform: scale(1.055) rotate(-2deg);
+      box-shadow: 0 8px 26px #ce9f4252;
+    }
+    .service-desc-block {
+      flex: 1;
+      padding: 1.5em 2em;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25em;
+    }
+    .service-desc-block h3 {
+      font-size: 1.18em;
+      font-family: 'Chelsea Market', Arial, Helvetica, sans-serif;
+      margin-bottom: 0.3em;
+      font-weight: 700;
+      color: #253134;
+      letter-spacing: 0.8px;
+    }
+    .service-detail {
+      font-size: 1.02em;
+      color: #6f8181;
+      margin-bottom: 0.13em;
+    }
+    .service-price {
+      font-size: 1.1em;
+      color: #bf3d43;
+      margin-bottom: 0.42em;
+      margin-top: 0.27em;
+      font-weight: 700;
+    }
+    .service-desc-block .view-details-btn {
+      background: #bf3d43;
+      color: #fff;
+      padding: .52em 1.4em;
+      font-size: 1em;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: background 0.18s, transform 0.16s, box-shadow 0.16s;
+      border: none;
+      margin-top: .45em;
+      font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+      box-shadow: 0 3px 16px #bf3d4333;
+      will-change: background, box-shadow, transform;
+      display: inline-block;
+    }
+    .service-desc-block .view-details-btn:hover, .service-desc-block .view-details-btn:focus {
+      background: #973347;
+      transform: scale(1.08);
+      box-shadow: 0 7px 24px #bf3d432c;
+      outline: none;
+    }
+    #contact {
+      background: #faeec8;
+    }
+    .contact-header-img {
+      width: 100%;
+      height: 250px;
+      background: url('https://ext.same-assets.com/2721536883/3364239934.jpeg') center/cover no-repeat;
+      border-radius: 1em;
+      margin-bottom: 1.7em;
+    }
+    .contact-info.contact-info-centered {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 2.2rem;
+      margin: 2rem auto;
+      text-align: center;
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      max-width: 900px;
+    }
+    .contact-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 13px #9b9a9633;
+      margin: 0;
+      padding: 1.8em 1.0em;
+      min-width: 190px;
+      max-width: 255px;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      animation: fadeInUp 1s cubic-bezier(.4,.7,.44,1.23) both;
+      transition: box-shadow 0.21s, transform 0.19s;
+      will-change: box-shadow, transform, opacity;
+    }
+    .contact-card:nth-child(1){animation-delay: 0.21s;opacity:1;}
+    .contact-card:nth-child(2){animation-delay: 0.42s;opacity:1;}
+    .contact-card:nth-child(3){animation-delay: 0.63s;opacity:1;}
+    .contact-card:nth-child(4){animation-delay: 0.84s;opacity:1;}
+    .contact-card:hover {
+      box-shadow: 0 7px 30px #35bec070;
+      transform: scale(1.04) translateY(-5px);
+    }
+    .contact-card h4 {
+      font-family: 'Chelsea Market', Arial, Helvetica, sans-serif;
+      font-size: 1.18em;
+      color: #2b3b47;
+      margin-bottom: 0.2em;
+    }
+    .contact-card p, .contact-card a {
+      font-size: 1.07em;
+      color: #3b3b3b;
+      margin: 0.5em 0;
+      line-height: 1.43;
+    }
+    .contact-social-icons {
+      margin-top: 1em;
+      display: flex;
+      gap: 0.8em;
+      justify-content: center;
+      transition: gap 0.16s;
+    }
+    .contact-social-icons img {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: #eee;
+      transition: box-shadow 0.19s, transform 0.19s;
+      box-shadow: 0 2px 10px #b6544340;
+      will-change: box-shadow, transform;
+    }
+    .contact-social-icons img:hover {
+      transform: scale(1.13) rotate(-4deg);
+      box-shadow: 0 4px 22px #e9872e66;
+    }
+    #portfolio {
+      background: #f7f7fa;
+    }
+    .portfolio-header {
+      text-align: center;
+      padding-bottom: 2rem;
+    }
+    .portfolio-header h2 {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: .4em;
+      color: #31303a;
+      animation: fadeInScale 1s cubic-bezier(0.6,0.21,0.45,0.99) both;
+    }
+    .portfolio-header p {
+      font-size: 1.14em;
+      color: #555;
+    }
+    .portfolio-list {
+      display: flex;
+      gap: 2.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 0 auto 1.8rem auto;
+    }
+    .portfolio-card {
+      width: 290px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #b0b8c530;
+      overflow: hidden;
+      text-align: center;
+      transition: box-shadow 0.21s, transform 0.16s;
+      will-change: box-shadow, transform;
+    }
+    .portfolio-card:hover {
+      transform: scale(1.045) translateY(-4px);
+      box-shadow: 0 10px 34px #ce9f4255;
+      z-index: 2;
+    }
+    .portfolio-card img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 14px 14px 0 0;
+      background: #fafafa;
+      transition: transform 0.23s cubic-bezier(.5,.4,.72,1.19);
+      display: block;
+    }
+    .portfolio-card:hover img {
+      transform: scale(1.034) rotate(-2deg);
+    }
+    .footer {
+      background: #2c2c2c;
+      color: #fff;
+      text-align: center;
+      padding: 2.7rem 0 1.3rem;
+    }
+    .footer .footer-motto {
+      font-family: 'Damion', cursive, 'Open Sans', sans-serif;
+      font-size: 1.5em;
+      margin-top: 0.22rem;
+      letter-spacing: 2px;
+    }
+    @keyframes fadeInUp {
+      0% {opacity: .2;transform: translateY(52px);}
+      100% {opacity: 1;transform: translateY(0);}
+    }
+    @keyframes fadeInScale {
+      0% {opacity: 0;transform: scale(0.92);}
+      100% {opacity: 1;transform: scale(1);}
+    }
+    @media (max-width: 800px) {
+      body { font-size: 18px; }
+      .nav-bar { flex-direction: column; gap: 1.2rem; }
+      section { padding: 2rem 0.7rem; }
+      .artworks-row,.courses-list,.clients-logos,.portfolio-list,.about-split,.testimonials, .contact-info, .services-list-outer { flex-direction: column; gap: 1.2em; }
+      .service-card, .service-card.reverse, .portfolio-card, .contact-card, .course-block, .artwork-card { max-width: 97vw; min-width: 0; width: 99vw; }
+      .service-img { width: 100vw; min-width: 0; }
+      .services-header-img,.contact-header-img { height: 130px; }
+      .courses-section { max-width: 99vw; }
+      .courses-list { max-width: 99vw; }
+      .course-block { width: 95vw; min-width: 0; max-width: 99vw; }
+      .contact-info.contact-info-centered, .services-list-outer { padding: 0; gap: 1.2em; }
+      .services-list-outer, .contact-info.contact-info-centered { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-bar">
+      <a href="#home" class="logo">VARTIST</a>
+      <nav aria-label="Main navigation">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+        <a href="#portfolio">Portfolio</a>
+      </nav>
+      <span class="nav-user" title="User Account">&#9679;</span>
+    </div>
+  </header>
+
+  <section id="home">
+    <div class="hero">
+      <div class="hero-content">
+        <h1 style="font-size:2.5em; letter-spacing:2px; margin:0 0 0.5em;font-family:'Chelsea Market',cursive;">VARTIST INC.</h1>
+        <p>Modern Digital & Urban Art | Creative Courses & Portfolio</p>
+      </div>
+      <a href="#featured-artworks" class="scroll-down-arrow" aria-label="Scroll to artworks">&#8595;</a>
+    </div>
+  </section>
+  <section id="featured-artworks" class="featured-artworks">
+    <h2 class="featured-artworks-title">FEATURED ARTWORKS</h2>
+    <div class="artworks-row">
+      <div class="artwork-card">
+        <img src="https://ext.same-assets.com/1954594351/306137808.jpeg" alt="Artwork 1">
+      </div>
+      <div class="artwork-card">
+        <img src="https://ext.same-assets.com/1954594351/3067477196.jpeg" alt="Artwork 2">
+      </div>
+      <div class="artwork-card">
+        <img src="https://ext.same-assets.com/1954594351/1473466252.jpeg" alt="Artwork 3">
+      </div>
+    </div>
+  </section>
+  <section class="courses-section">
+    <h2 class="featured-artworks-title">Next Courses</h2>
+    <div class="courses-list">
+      <div class="course-block">
+        <h3>14</h3>
+        <h5>March</h5>
+        <div class="course-desc">Join us on March 14 for a digital art course! Enhance your skills and explore your creativity. Sign up now and connect with fellow artists!</div>
+        <a href="#services">Read More &gt;&gt;</a>
+      </div>
+      <div class="course-block">
+        <h3>26</h3>
+        <h5>March</h5>
+        <div class="course-desc">Join us on March 26 for a fun sketch course! Perfect for skill levels, this session will help you improve your techniques and spark your creativity. Sign up today!</div>
+        <a href="#services">Read More &gt;&gt;</a>
+      </div>
+      <div class="course-block">
+        <h3>09</h3>
+        <h5>April</h5>
+        <div class="course-desc">Join us for a graffiti course on April 9! Learn the basics and unleash your creativity in this fun and vibrant art form. Sign up now to reserve your spot!</div>
+        <a href="#services">Read More &gt;&gt;</a>
+      </div>
+      <div class="course-block">
+        <h3>15</h3>
+        <h5>April</h5>
+        <div class="course-desc">Join us on April 15 for a digital art course! Perfect for all skill levels, this course will inspire your creativity and help you master digital art techniques. Sign up now!</div>
+        <a href="#services">Read More &gt;&gt;</a>
+      </div>
+    </div>
+  </section>
+  <section class="identity-banner">
+    <h2>IDENTITY</h2>
+    <h4>CONQUER YOUR OWN STYLE</h4>
+    <a href="#about">Read More &gt;&gt;</a>
+  </section>
+  <section id="about">
+    <div class="about-split">
+      <div class="about-left">
+        <img src="https://ext.same-assets.com/2755751396/2330040344.jpeg" alt="Painting Wall" />
+      </div>
+      <div class="about-right">
+        <h3>Get to Know Us</h3>
+        <p>Vartist is a highly skilled and passionate digital artist, specializing in a wide range of visual styles including digital painting, sketching, graphic design, and graffiti. With years of experience and a bold, creative edge, Vartist brings both inspiration and expertise to the art community. Whether you're looking to sharpen your skills or dive into art for the first time, Vartist offers the perfect blend of creativity and technique. Each piece of work reflects a unique perspective and a dedication to visual storytelling.<br><br>Our courses are designed for artists at every stage—from complete beginners to seasoned professionals. You'll find in-depth lessons on digital art fundamentals, advanced techniques in design, and expressive graffiti styles. Every course is structured to help you grow at your own pace, with clear guidance and real-world tips. No matter your skill level, we'll help you unlock your full creative potential.<br><br>Learning with Vartist means joining a supportive and passionate community of fellow creators. We believe that art is for everyone, and our goal is to make it accessible, fun, and meaningful. Through engaging tutorials, hands-on projects, and personalized feedback, you'll see your skills evolve with every session. Let Vartist guide your artistic journey and help you turn your ideas into powerful visual art.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items:center; gap: 2em; flex-wrap:wrap;">
+      <img src="https://ext.same-assets.com/2755751396/1022748235.jpeg" alt="Art Gallery" style="max-width:370px;border-radius:1.2em;" />
+      <div>
+        <h2 style="font-family:'Chelsea Market',cursive;">Our commitment</h2>
+        <p>VARTIST is committed to supporting working artists.</p>
+      </div>
+    </div>
+    <div class="testimonials">
+      <div class="testimonial-block">
+        <div style="font-size:2em;color:#b65443;">&#8220;</div>
+        <h4>Alexa Young, CA</h4>
+        <p>The best art website where you can really learn something and its cheap.</p>
+      </div>
+      <div class="testimonial-block">
+        <div style="font-size:2em;color:#b65443;">&#8220;</div>
+        <h4>Morgan James, NY</h4>
+        <p>If you're looking for a website that teaches you very well I recommend VARTIST.</p>
+      </div>
+      <div class="testimonial-block">
+        <div style="font-size:2em;color:#b65443;">&#8220;</div>
+        <h4>Jade Dalaguiado, PH</h4>
+        <p>The Instructors are great, the nicest people to teach art.</p>
+      </div>
+    </div>
+    <div class="clients-section">
+      <h3>Working With the Best Clients and Partners</h3>
+      <div class="clients-logos">
+        <img src="https://ext.same-assets.com/2755751396/1163383502.png" alt="Latch Logo" />
+        <img src="https://ext.same-assets.com/2755751396/4070515642.png" alt="Horizon Logo" />
+        <img src="https://ext.same-assets.com/2755751396/3996501430.png" alt="Collective Logo" />
+        <img src="https://ext.same-assets.com/2755751396/1438966970.png" alt="PJK Logo" />
+        <img src="https://ext.same-assets.com/2755751396/4030665504.png" alt="Pan Tiles Logo" />
+        <img src="https://ext.same-assets.com/2755751396/1479320829.png" alt="Mowerr Logo" />
+      </div>
+    </div>
+  </section>
+  <section id="services">
+    <div class="services-header-img"></div>
+    <h2 class="featured-artworks-title">SERVICES</h2>
+    <div class="services-list-outer">
+      <div class="service-card">
+        <img class="service-img" src="https://ext.same-assets.com/984161844/3952924846.webp" alt="Sketch">
+        <div class="service-desc-block">
+          <h3>Sketch</h3>
+          <div class="service-detail">4 Weeks</div>
+          <div class="service-price">₱1,000.00</div>
+          <a href="#contact" class="view-details-btn">View Details</a>
+        </div>
+      </div>
+      <div class="service-card reverse">
+        <img class="service-img" src="https://ext.same-assets.com/984161844/2443763753.webp" alt="Digital Art">
+        <div class="service-desc-block">
+          <h3>Digital Art</h3>
+          <div class="service-detail">4 Weeks</div>
+          <div class="service-price">₱2,500.00</div>
+          <a href="#contact" class="view-details-btn">View Details</a>
+        </div>
+      </div>
+      <div class="service-card">
+        <img class="service-img" src="https://ext.same-assets.com/984161844/2038699394.webp" alt="Graphic Design">
+        <div class="service-desc-block">
+          <h3>Graphic Design</h3>
+          <div class="service-detail">4 Weeks</div>
+          <div class="service-price">₱5,000.00</div>
+          <a href="#contact" class="view-details-btn">View Details</a>
+        </div>
+      </div>
+      <div class="service-card reverse">
+        <img class="service-img" src="https://ext.same-assets.com/984161844/3185345059.webp" alt="Graffiti">
+        <div class="service-desc-block">
+          <h3>Graffiti</h3>
+          <div class="service-detail">4 Weeks</div>
+          <div class="service-price">₱1,000.00</div>
+          <a href="#contact" class="view-details-btn">View Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="contact-header-img"></div>
+    <h2 class="featured-artworks-title">Contact</h2>
+    <div class="contact-info contact-info-centered">
+      <div class="contact-card">
+        <h4>Address</h4>
+        <p>Urro St.<br>San Jose, ZDS 7016</p>
+      </div>
+      <div class="contact-card">
+        <h4>Phone</h4>
+        <p>095-2945-2323</p>
+      </div>
+      <div class="contact-card">
+        <h4>Email</h4>
+        <p><a href="mailto:vartist@gmail.com">vartist@gmail.com</a></p>
+      </div>
+      <div class="contact-card">
+        <h4>Connect</h4>
+        <div class="contact-social-icons">
+          <a href="https://www.facebook.com/wix" target="_blank"><img src="https://ext.same-assets.com/2721536883/523227975.png" alt="Facebook"></a>
+          <a href="https://www.twitter.com/wix" target="_blank"><img src="https://ext.same-assets.com/2721536883/1475236436.png" alt="Twitter"></a>
+          <a href="https://www.linkedin.com/company/wix-com" target="_blank"><img src="https://ext.same-assets.com/2721536883/3715649917.png" alt="LinkedIn"></a>
+          <a href="https://www.instagram.com/wix" target="_blank"><img src="https://ext.same-assets.com/2721536883/426244835.png" alt="Instagram"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="portfolio">
+    <div class="portfolio-header">
+      <h2>My Portfolio</h2>
+      <p>Welcome to my portfolio. Here you'll find a selection of my work. Explore my projects to learn more about what I do.</p>
+    </div>
+    <div class="portfolio-list">
+      <div class="portfolio-card">
+        <img src="https://ext.same-assets.com/1544280242/3814307032.jpeg" alt="Digital Art">
+      </div>
+      <div class="portfolio-card">
+        <img src="https://ext.same-assets.com/1544280242/2062784957.jpeg" alt="Sketches">
+      </div>
+      <div class="portfolio-card">
+        <img src="https://ext.same-assets.com/1544280242/3592019172.jpeg" alt="Editings">
+      </div>
+    </div>
+  </section>
+  <div class="footer">
+    <div style="font-size:1.3em;">VARTIST inc.</div>
+    <div class="footer-motto">EVERYTHING YOU DRAW HAS MEANING</div>
+  </div>
+</body>
+</html>
